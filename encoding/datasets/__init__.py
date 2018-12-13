@@ -5,6 +5,7 @@ from .pascal_aug import VOCAugSegmentation
 from .pcontext import ContextSegmentation
 from .cityscapes import CityscapesSegmentation
 from .coco_stuff import CocostuffSegmentation
+from .helen import HelenSegmentation
 
 datasets = {
     'ade20k': ADE20KSegmentation,
@@ -12,6 +13,7 @@ datasets = {
     'pascal_aug': VOCAugSegmentation,
     'pcontext': ContextSegmentation,
     'cityscapes': CityscapesSegmentation,
+    'helen': HelenSegmentation,
     'coco_stuff': CocostuffSegmentation,
 }
 def get_segmentation_dataset(name, **kwargs):
