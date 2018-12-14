@@ -15,8 +15,8 @@ class HelenSegmentation(BaseDataset):
                  target_transform=None):
         super(HelenSegmentation, self).__init__(root, split, mode, transform, target_transform,base_size=256, crop_size=256)
         _helen_root = os.path.join(self.root, self.BASE_DIR)
-        _mask_dir = os.path.join(_helen_root, 'helen_A')
-        _image_dir = os.path.join(_helen_root, 'helen_B')
+        _mask_dir = os.path.join(_helen_root, 'helen_B')
+        _image_dir = os.path.join(_helen_root, 'helen_A')
         # train/val/test splits are pre-cut
         #_splits_dir = os.path.join(_cityscapes_root, 'ImageSets/Segmentation')
         if self.mode == 'train':
@@ -125,8 +125,8 @@ class HelenSegmentation(BaseDataset):
         if self.target_transform is not None:
             #print("transform for label")
             target = self.target_transform(target)
-        return img, target, self.names[index]
-        #return img, target
+        #return img, target, self.names[index]
+        return img, target
 
     def __len__(self):
         return len(self.images)

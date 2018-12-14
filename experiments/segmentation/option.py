@@ -90,6 +90,7 @@ class Options():
         if args.epochs is None:
             epoches = {
                 'pascal_voc': 50,
+                'helen': 50,
                 'pascal_aug': 50,
                 'pcontext': 80,
                 'ade20k': 120,
@@ -105,6 +106,7 @@ class Options():
             lrs = {
                 'pascal_voc': 0.0001,
                 'pascal_aug': 0.001,
+                'helen': 0.001,
                 'pcontext': 0.001,
                 'ade20k': 0.01,
                 'cityscapes': 0.01,

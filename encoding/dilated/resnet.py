@@ -178,7 +178,7 @@ class ResNet(nn.Module):
             self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
                                bias=False)
         #self.bn1 = norm_layer(64)
-        self.bn1 = nn.BatchNorm2d(64, affine = affine_par)
+        self.bn1 = nn.BatchNorm2d(self.inplanes, affine = affine_par)
         #for i in self.bn1.parameters():
         #    i.requires_grad = False
 
