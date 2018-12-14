@@ -7,6 +7,13 @@ from tqdm import tqdm
 import torch
 from .base import BaseDataset
 
+
+
+def swap_N(T, m, n): #Distinguish left & right
+    A = np.asarray(T)
+    A[[m, n], :, :] = A[[n, m], :, :]
+    return Image.fromarray(np.uint8(A))
+
 class HelenSegmentation(BaseDataset):
     NUM_CLASS = 11
     #BASE_DIR = 'VOCdevkit/VOC2012'
@@ -64,11 +71,14 @@ class HelenSegmentation(BaseDataset):
         # final transform
         return img, self._mask_transform(mask)
 
+
     def _sync_transform(self, img, mask):
         # random mirror
         if random.random() < 0.5:
             img = img.transpose(Image.FLIP_LEFT_RIGHT)
             mask = mask.transpose(Image.FLIP_LEFT_RIGHT)
+            mask = swap_N(mask, 2, 3)
+            mask = swap_N(mask, 4, 5)
         # random scale (short edge from 480 to 720)
         short_size = random.randint(int(self.base_size*0.5), int(self.base_size*2.0))
         w, h = img.size
@@ -125,7 +135,8 @@ class HelenSegmentation(BaseDataset):
         if self.target_transform is not None:
             #print("transform for label")
             target = self.target_transform(target)
-        #return img, target, self.names[index]
+        if self.mode == 'testval':
+            return img, target, self.names[index]
         return img, target
 
     def __len__(self):
