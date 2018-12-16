@@ -10,8 +10,11 @@ from .base import BaseDataset
 
 
 def swap_N(T, m, n): #Distinguish left & right
-    A = np.asarray(T)
-    A[[m, n], :, :] = A[[n, m], :, :]
+    T = np.asarray(T)
+    #A = np.zeros(T.shape)
+    A = T.copy()
+    A[T==n] = m
+    A[T==m] = n
     return Image.fromarray(np.uint8(A))
 
 class HelenSegmentation(BaseDataset):
@@ -118,8 +121,9 @@ class HelenSegmentation(BaseDataset):
             return img, os.path.basename(self.images[index])
         target = Image.open(self.masks[index])
         img = img.resize((self.crop_size_w, self.crop_size_h), Image.BILINEAR)
-        if self.mode != 'testval':
-            target = target.resize((self.crop_size_w, self.crop_size_h), Image.NEAREST)
+        target = target.resize((self.crop_size_w, self.crop_size_h), Image.NEAREST)
+        #if self.mode != 'testval':
+        #    target = target.resize((self.crop_size_w, self.crop_size_h), Image.NEAREST)
         # synchrosized transform
         if self.mode == 'train':
             img, target = self._sync_transform( img, target)

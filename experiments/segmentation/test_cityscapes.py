@@ -45,12 +45,9 @@ def colorize_mask(mask):
 
 def test(args):
     # output folder
-    outdir = 'outdir'
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
-    # data transforms
     if not os.path.exists(args.save):
         os.makedirs(args.save)
+    # data transforms
     input_transform = transform.Compose([
         transform.ToTensor(),
         transform.Normalize([.485, .456, .406], [.229, .224, .225])])

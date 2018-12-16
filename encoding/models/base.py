@@ -181,10 +181,10 @@ class MultiEvalModule(DataParallel):
 class MultiEvalModuleHelen(DataParallel):
     """Multi-size Segmentation Eavluator"""
     def __init__(self, module, nclass, device_ids=None,
-                 base_size=256, crop_size=256, flip=False,
+                 base_size=256, crop_size=256, flip=True,
                  #scales=[1.0]):
                  scales=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75]):
-        super(MultiEvalModule, self).__init__(module, device_ids)
+        super(MultiEvalModuleHelen, self).__init__(module, device_ids)
         self.nclass = nclass
         self.base_size = base_size
         self.crop_size = crop_size
@@ -233,7 +233,7 @@ class MultiEvalModuleHelen(DataParallel):
             if long_size <= crop_size:
                 pad_img = pad_image(cur_img, self.module.mean,
                                     self.module.std, crop_size)
-                outputs = module_inference(self.module, pad_img, self.flip)
+                outputs = module_inference_helen(self.module, pad_img, self.flip)
                 outputs = crop_image(outputs, 0, height, 0, width)
             else:
                 if short_size < crop_size:
@@ -261,7 +261,7 @@ class MultiEvalModuleHelen(DataParallel):
                         # pad if needed
                         pad_crop_img = pad_image(crop_img, self.module.mean,
                                                  self.module.std, crop_size)
-                        output = module_inference(self.module, pad_crop_img, self.flip)
+                        output = module_inference_helen(self.module, pad_crop_img, self.flip)
                         outputs[:,:,h0:h1,w0:w1] += crop_image(output,
                             0, h1-h0, 0, w1-w0)
                         count_norm[:,:,h0:h1,w0:w1] += 1
@@ -371,6 +371,19 @@ class MultiEvalModuleCityscapes(DataParallel):
             scores += score
 
         return scores
+
+def module_inference_helen(module, image, flip=True):
+    output = module.evaluate(image)
+    if flip:
+        fimg = flip_image(image)
+        foutput = module.evaluate(fimg)
+        flip_output = foutput.cpu().numpy()
+        flip_output[:,[3, 2], :, :] = flip_output[:,[2, 3], :, :]
+        flip_output[:,[5, 4], :, :] = flip_output[:,[4, 5], :, :]
+        foutput = torch.from_numpy(flip_output)
+        foutput = foutput.cuda(output.get_device())
+        output += flip_image(foutput)
+    return output.exp()
 
 
 
