@@ -22,7 +22,7 @@ Train
 1. There are fcn.py, deeplab.py, psp.py and encnet.py model in encoding/model/.
 2. If you want to train on your own dataset, you should implement a dataset file like encoding/datasets/cityscapes.py.
 3. For cityscapes dataset, put gtFine, leftImg8bit, train.txt, val.txt in ~/.encoding/data/Cityscapes/data/. 
-4. Please read experiment/segmentation/option.py to adjust the hyper parameter setting. I use batch_size=8, lr=0.01, 4 gpus, psp model, resnet101, 80 epoches, and the model can achieve mIoU=0.759 on cityscapes validation dataset. 
+4. Please read experiment/segmentation/option.py to adjust the hyper parameter setting. I use batch_size=8, lr=0.01, 4 gpus, psp model, resnet101, 80 epoches, and the model can achieve mIoU=0.7704 on cityscapes validation dataset. 
 5. Here is an example for train psp model on cityscapes.
 CUDA_VISIBLE_DEVICES=0,1,2,3 python train_cityscapes.py --dataset cityscapes --model psp --backbone resnet101 --aux --batch-size 8
 
