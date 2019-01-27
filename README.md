@@ -11,11 +11,13 @@ created by [Hang Zhang](http://hangzh.com/)
 
 Install Package
 
-1. This package relies on PyTorch master branch (higher than stable released v0.4.0), please follow the instruction to install PyTorch from source. This PyTorch master branch need cuda9.0 or higher cuda version.  Otherwise, the encoding.py and syncbn.py will report error. I will try to reimplement the syncbn.py based on v0.4.0 in the future. For now, if you can not install PyTorch from source succussfully, you could use the branch 'pytorch0.4.0' of this project which uncomments the encoding.py and syncbn.py
+1. This branch relies on PyTorch v0.4.0, please follow the instruction to install PyTorch.
 
 2. git clone https://github.com/wenqingchu/PyTorch-Encoding
 
-3. Since I use anaconda3, I install this project by "python setup.py install --prefix=~/anaconda3/"
+3. checkout bracn pytorch0.4.0
+
+4. Since I use anaconda3, I install this project by "python setup.py install --prefix=~/anaconda3/"
 
 Train
 
